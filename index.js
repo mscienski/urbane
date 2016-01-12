@@ -1,18 +1,43 @@
-var express = require('express');
-var app = express();
+var http = require('http');
+var urban = require('urban');
+var url = require('url');
 
-app.set('port', (process.env.PORT || 5000));
+var PORT = process.env.PORT || 5000;
 
-app.use(express.static(__dirname + '/public'));
+function handleRequest(request, response) {
+  var query = url.parse(request.url, true).query;
+  response.writeHead(200, {'Content-Type': 'application/json'});
+  var res = {
+    'response_type': 'in_channel'
+  };
 
-// views is directory for all template files
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+  if (query && query.text) {
+    var trollface = urban(query.text);
+    try {
+      trollface.res(function(json) {
+        var i = Math.floor(Math.random() * json.length);
+        res['text'] = 'According to Urban Dictionary, "' + query.text + '" could mean: ' + json[i].definition;
+        response.end(JSON.stringify(res));
+      });
+    } catch(e) {
+      response.end('Something went wrong when looking for an Urban Dictionary definition for "' + query.text + '". Try again later, and let Michal know.');
+    }
+  } else {
+    try {
+      var trollface = urban.random();
+      trollface.res(function(json) {
+        var i = Math.floor(Math.random() * json.length);
+        res['text'] = 'Here is a random definition for "' + json[i].word + '": ' + json[i].definition;
+        response.end(JSON.stringify(res));
+      });
+    } catch(e) {
+      response.end('Something went wrong when looking for a random Urban Dictionary definition. Try again later, and let Michal know.');
+    }
+  }
+}
 
-app.get('/', function(request, response) {
-  response.render('pages/index');
-});
+var server = http.createServer(handleRequest);
 
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+server.listen(PORT, function() {
+  console.log('listening on PORT ' + PORT);
 });
