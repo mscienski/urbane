@@ -27,7 +27,7 @@ function handleRequest(request, response) {
       var trollface = urban.random();
       trollface.res(function(json) {
         var i = Math.floor(Math.random() * json.length);
-        res['text'] = 'Here is a random definition for "' + json[i].word + '": ' + json[i].definition;
+        res['text'] = 'Randomly looked up "' + json[i].word + '": ' + json[i].definition;
         response.end(JSON.stringify(res));
       });
     } catch(e) {
