@@ -19,7 +19,8 @@
   "keywords": [
     "node",
     "heroku",
-    "express"
+    "urban dictionary",
+    "slack"
   ],
   "license": "MIT"
 }
