@@ -15,9 +15,13 @@ function handleRequest(request, response) {
     var trollface = urban(query.text);
     try {
       trollface.res(function(json) {
-        var i = Math.floor(Math.random() * json.length);
-        res['text'] = 'According to Urban Dictionary, "' + query.text + '" could mean: ' + json[i].definition;
-        response.end(JSON.stringify(res));
+        try {
+          var i = Math.floor(Math.random() * json.length);
+          res['text'] = 'According to Urban Dictionary, "' + query.text + '" could mean: ' + json[i].definition;
+          response.end(JSON.stringify(res));
+        } catch(e) {
+          response.end('No definition found for ' + query.text + '!');
+        }
       });
     } catch(e) {
       response.end('Something went wrong when looking for an Urban Dictionary definition for "' + query.text + '". Try again later, and let Michal know.');
@@ -26,9 +30,13 @@ function handleRequest(request, response) {
     try {
       var trollface = urban.random();
       trollface.res(function(json) {
-        var i = Math.floor(Math.random() * json.length);
-        res['text'] = 'Randomly looked up "' + json[i].word + '": ' + json[i].definition;
-        response.end(JSON.stringify(res));
+        try {
+          var i = Math.floor(Math.random() * json.length);
+          res['text'] = 'Randomly looked up "' + json[i].word + '": ' + json[i].definition;
+          response.end(JSON.stringify(res));
+        } catch(e) {
+          'No definition found for ' + json[i].word + '!';
+        }
       });
     } catch(e) {
       response.end('Something went wrong when looking for a random Urban Dictionary definition. Try again later, and let Michal know.');
