@@ -1,0 +1,26 @@
+{
+  "name": "urbane",
+  "version": "0.0.1",
+  "description": "A slash command for slack to look up definitions in urban dictionary",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodejs index.js"
+  },
+  "dependencies": {
+    "ejs": "2.3.3",
+    "express": "4.13.3"
+  },
+  "engines": {
+    "node": "0.12.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/node-js-getting-started"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}
